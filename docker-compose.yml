@@ -1,9 +1,25 @@
 version: '3.8'
 
 services:
-  expenditure-project:
+  expenditure-project-1:
     build: .
-    container_name: expenditure-project
+    container_name: expenditure-project-1
+    expose:
+      - "8180"
+    networks:
+      - app-network
+
+  expenditure-project-2:
+    build: .
+    container_name: expenditure-project-2
+    expose:
+      - "8180"
+    networks:
+      - app-network
+
+  expenditure-project-3:
+    build: .
+    container_name: expenditure-project-3
     expose:
       - "8180"
     networks:
@@ -19,7 +35,9 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ssl:/etc/nginx/ssl:ro
     depends_on:
-      - expenditure-project
+      - expenditure-project-1
+      - expenditure-project-2
+      - expenditure-project-3
     networks:
       - app-network
 
