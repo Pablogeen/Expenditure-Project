@@ -1,5 +1,14 @@
+# Stage 1: build the jar using Maven
+FROM maven:3.9.6-openjdk-21 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: run the jar using Amazon Corretto
 FROM amazoncorretto:21
 WORKDIR /app
 LABEL authors="BEN & CO"
-COPY target/Expenditure-Project-0.0.1-SNAPSHOT.jar ExpenditureProject.jar
+COPY --from=build /app/target/*.jar ExpenditureProject.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "ExpenditureProject.jar"]
