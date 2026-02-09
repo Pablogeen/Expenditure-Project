@@ -3,12 +3,14 @@ package com.rey.expenditure.dto;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Data
 @Component
 public class ExpenditureResponseDto {
 
-    private Double tithe;
-    private Double needs;
-    private Double charity;
-    private Double investment;
+    private BigDecimal tithe;
+    private BigDecimal needs;
+    private BigDecimal charity;
+    private BigDecimal investment;
 }

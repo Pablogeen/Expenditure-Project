@@ -4,69 +4,52 @@ import com.rey.expenditure.exception.InvalidIncomeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Service
 @Slf4j
 public class ExpenditureHelper {
 
-    Double incomeDouble;
-    public void validateIncome(String income) {
 
-        if(income == null || income.strip().isEmpty()){
-            throw new InvalidIncomeException("INVALID INCOME");
-        }
-            try {
-                incomeDouble = Double.parseDouble(income);
-            }catch(NumberFormatException e){
-                throw new InvalidIncomeException("INVALID INCOME");
-            }
-
-        if(incomeDouble < 1){
-            throw new InvalidIncomeException("INVALID INCOME");
-        }
-
-
-    }
-
-    public Double calculateTitheExpenditure(String income) {
+    public BigDecimal calculateTitheExpenditure(BigDecimal income) {
         log.info("About to calculate tithe expenditure");
 
-        incomeDouble = Double.parseDouble(income);
-
-        Double titheExpenditure  = 0.1 * incomeDouble;
+        BigDecimal titheExpenditure =
+                income.multiply(BigDecimal.valueOf(0.1)).setScale(2, RoundingMode.HALF_UP);
         log.info("Calculated tithe Expenditure: {}",titheExpenditure);
 
         return titheExpenditure;
     }
 
-    public Double calculateNeedExpenditure(String income) {
+    public BigDecimal calculateNeedExpenditure(BigDecimal  income) {
         log.info("About to calculate need expenditure");
-        incomeDouble = Double.parseDouble(income);
 
-        Double needExpenditure  = 0.5 * incomeDouble;
+        BigDecimal needExpenditure =
+                income.multiply(BigDecimal.valueOf(0.5)).setScale(2, RoundingMode.HALF_UP);
+
         log.info("Calculated Need Expenditure: {}",needExpenditure);
 
         return needExpenditure;
     }
 
-    public Double calculateCharityExpenditure(String income) {
+    public BigDecimal calculateCharityExpenditure(BigDecimal income) {
         log.info("About to calculate charity expenditure");
 
-        incomeDouble = Double.parseDouble(income);
-
-        Double charityExpenditure  = 0.4 * incomeDouble;
-        log.info("Calculated Charity Expenditure: {}",charityExpenditure);
+       BigDecimal charityExpenditure =
+               income.multiply(BigDecimal.valueOf(0.2)).setScale(2, RoundingMode.HALF_UP);
 
         log.info("Calculated Charity Expenditure: {}",charityExpenditure);
 
         return charityExpenditure;
     }
 
-    public Double calculateInvestmentExpenditure(String income) {
+    public BigDecimal calculateInvestmentExpenditure(BigDecimal income) {
         log.info("About to calculate Investment expenditure");
 
-        incomeDouble = Double.parseDouble(income);
+        BigDecimal investmentExpenditure =
+                income.multiply(BigDecimal.valueOf(0.2)).setScale(2, RoundingMode.HALF_UP);
 
-        Double investmentExpenditure  = 0.4 * incomeDouble;
         log.info("Calculated Investment Expenditure: {}",investmentExpenditure);
 
         return investmentExpenditure;
